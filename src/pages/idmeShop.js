@@ -39,6 +39,7 @@ exports.idmeShop = class idmeShop {
 
     //Military Discount Card Elements
     this.milCardOfferText = page.locator('div.group-military+div.card-content div.card-text>.title');
+    this.milCardOfferLink = page.locator('div.group-military+div.card-content>a.button');
   }
   /**
    * Commands
@@ -155,5 +156,24 @@ exports.idmeShop = class idmeShop {
 
     await expect(this.milCardOfferText).toHaveText(vendorToDiscountMap[vendor]);
     console.log(`Verifying military card text for ${vendor} to be ${vendorToDiscountMap[vendor]}.`)
+  }
+  /**
+   * Script used to verify the link to the partner. 
+   */
+  async verifyMilitaryOfferPartnerLink(vendor) {
+    const vendorToLinkMap = {
+      "WELD Wheels": "https://www.weldwheels.com/?afsrc=1&idme_shop_redirect=true",
+      "7-Eleven": "https://www.7-eleven.com/7rewards"
+    }
+
+    //Click on the partner offer, then wait for redirections. Afterwards, verify page url. Here we are utilizing multiple tabs.
+    const [newTab] = await Promise.all([
+      this.page.waitForEvent('popup'),
+      this.milCardOfferLink.click()
+    ])
+
+    console.log(`Verifying the partner referral URL to be ${vendorToLinkMap[vendor]}.`)
+    await newTab.waitForURL(vendorToLinkMap[vendor]);
+    await expect(newTab).toHaveURL(vendorToLinkMap[vendor]);
   }
 };

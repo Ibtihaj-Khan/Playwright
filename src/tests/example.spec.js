@@ -2,14 +2,12 @@ const { test, expect } = require('@playwright/test');
 const { idmeShop } = require('../pages/idmeShop');
 
 const categoryToOfferMap = {
-  'Men\'s Shoes': ['Under Armour', 'Nike', 'Saucony US'],
-  'Kid\'s Shoes': ['Under Armour', 'Nike', 'Saucony US'],
+  'Men\'s Shoes': ['Under Armour', 'Saucony US', 'Nike'],
+  'Kid\'s Shoes': ['Under Armour', 'Saucony US', 'Nike'],
   'Cars': [
-    'Discount Tire', 'Batteries Plus', 'SimpleTire', 'Tirebuyer', 'The Tire Rack', 'RealTruck', 'Tire Agent',
-    'Ford Accessories', 'UShip', 'Goodyear Tire', 'Valvoline Instant Oil Change', 'Harley-Davidson', 'CarGurus', 'Caribou',
-    'Parts Geek', 'Tiremart', 'K&N® Filters', 'Way.com', 'RevZilla', 'General Motors', 'Tesla', 'Ford Motor Company', 'Toyota',
-    'TrueCar', 'Lexus', 'Cummins', 'Troy Lee Designs', 'MOVE Bumpers', 'Belle Tire', 'CJ Pony Parts', 'TRUCKS R US', 'SuperATV',
-    '7-Eleven', 'WELD Wheels', '21 OFFROAD', 'Slick Products'
+    'Discount Tire', 'Batteries Plus', 'SimpleTire', 'Tirebuyer', 'RealTruck', 'AARP® Auto Insurance Program from The Hartford', 'Tire Agent',
+    'The Tire Rack', 'Ford Accessories', 'Valvoline Instant Oil Change', 'Goodyear Tire', 'CarGurus', 'Harley-Davidson', 'Parts Geek',
+    'Tiremart', 'K&N® Filters', 'Way.com'
   ]
 }
 
@@ -67,6 +65,8 @@ test('Verify the WELD Wheels military discount offer', async({ page }) => {
   await idmeShopPage.visitTab('Cars');
   await idmeShopPage.visitOfferCard('WELD Wheels', 3);
   await idmeShopPage.verifyMilitaryOffer('WELD Wheels');
+
+  await idmeShopPage.verifyMilitaryOfferPartnerLink('WELD Wheels');
 });
 
 test('Verify the 7-Eleven military discount offer', async({ page }) => {
@@ -77,4 +77,5 @@ test('Verify the 7-Eleven military discount offer', async({ page }) => {
   await idmeShopPage.visitTab('Cars');
   await idmeShopPage.visitOfferCard('7-Eleven', 3);
   await idmeShopPage.verifyMilitaryOffer('7-Eleven');
+  await idmeShopPage.verifyMilitaryOfferPartnerLink('7-Eleven');
 });
